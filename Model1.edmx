@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FinalTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="akun">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="10" />
+          <Property Name="password" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="profile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="nama" Type="varchar" MaxLength="30" />
+          <Property Name="username" Type="int" />
+          <Property Name="deskripsi" Type="text" />
+          <Property Name="tl" Type="date" />
+          <Property Name="alamat" Type="varchar" MaxLength="50" />
+          <Property Name="kontak" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_profile_akun">
+          <End Role="akun" Type="Self.akun" Multiplicity="0..1" />
+          <End Role="profile" Type="Self.profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="akun">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="profile">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalTestModelStoreContainer">
+          <EntitySet Name="akun" EntityType="Self.akun" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="profile" EntityType="Self.profile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_profile_akun" Association="Self.FK_profile_akun">
+            <End Role="akun" EntitySet="akun" />
+            <End Role="profile" EntitySet="profile" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinalTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="akun">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="profiles" Relationship="Self.FK_profile_akun" FromRole="akun" ToRole="profile" />
+        </EntityType>
+        <EntityType Name="profile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="nama" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="Int32" />
+          <Property Name="deskripsi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="tl" Type="DateTime" Precision="0" />
+          <Property Name="alamat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kontak" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="akun" Relationship="Self.FK_profile_akun" FromRole="profile" ToRole="akun" />
+        </EntityType>
+        <Association Name="FK_profile_akun">
+          <End Role="akun" Type="Self.akun" Multiplicity="0..1" />
+          <End Role="profile" Type="Self.profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="akun">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="profile">
+              <PropertyRef Name="username" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="akuns" EntityType="Self.akun" />
+          <EntitySet Name="profiles" EntityType="Self.profile" />
+          <AssociationSet Name="FK_profile_akun" Association="Self.FK_profile_akun">
+            <End Role="akun" EntitySet="akuns" />
+            <End Role="profile" EntitySet="profiles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinalTestModelStoreContainer" CdmEntityContainer="FinalTestEntities">
+          <EntitySetMapping Name="akuns">
+            <EntityTypeMapping TypeName="FinalTestModel.akun">
+              <MappingFragment StoreEntitySet="akun">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="profiles">
+            <EntityTypeMapping TypeName="FinalTestModel.profile">
+              <MappingFragment StoreEntitySet="profile">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="nama" ColumnName="nama" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="deskripsi" ColumnName="deskripsi" />
+                <ScalarProperty Name="tl" ColumnName="tl" />
+                <ScalarProperty Name="alamat" ColumnName="alamat" />
+                <ScalarProperty Name="kontak" ColumnName="kontak" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
